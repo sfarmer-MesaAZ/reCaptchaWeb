@@ -4,6 +4,16 @@
 
 <html lang="en">
 <head runat="server">
+    <!-- Google Tag Manager -->
+    <script>(function (w, d, s, l, i) {
+        w[l] = w[l] || []; w[l].push({
+            'gtm.start':
+                new Date().getTime(), event: 'gtm.js'
+        }); var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+                'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+        })(window, document, 'script', 'dataLayer', 'GTM-5S7XSCF');</script>
+    <!-- End Google Tag Manager -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%: Page.Title %> - My ASP.NET Application</title>
@@ -20,7 +30,7 @@
             <!--Invisible V2-->     
 <%--        <script src="https://www.google.com/recaptcha/api.js" async defer></script>--%>
             <!--Captcha V3-->     
-            <script src='https://www.google.com/recaptcha/api.js?render=6LdBOpgUAAAAAOwiA35gBcQBjgimSnL_JiC4C5mH'></script></head>
+            <script src='https://www.google.com/recaptcha/api.js?render=6LdUdpgUAAAAAFnuf6lPVa_oMBU6lUyLoOUIOCtu'></script></head>
 
 
 
@@ -45,7 +55,7 @@
                 <%--Site Scripts--%>
             </Scripts>
         </asp:ScriptManager>
-
+<%--
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -64,13 +74,13 @@
                     </ul>
                 </div>
             </div>
-        </div>
+        </div>--%>
         <div class="container body-content">
             <asp:ContentPlaceHolder ID="MainContent" runat="server">
             </asp:ContentPlaceHolder>
             <hr />
             <footer>
-                <p>&copy; <%: DateTime.Now.Year %> - My ASP.NET Application</p>
+                <p>&copy; <%: DateTime.Now.Year %> - City of Mesa reCaptcha Profiler</p>
             </footer>
         </div>
 

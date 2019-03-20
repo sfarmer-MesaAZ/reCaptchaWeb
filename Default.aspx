@@ -3,7 +3,7 @@
 <asp:Content ID="BodyContent" ContentPlaceHolderID="MainContent" runat="server">
   <script type="text/javascript">
             grecaptcha.ready(function () {
-                grecaptcha.execute('6LdBOpgUAAAAAOwiA35gBcQBjgimSnL_JiC4C5mH', {action: 'test'})
+                grecaptcha.execute('6LdUdpgUAAAAAFnuf6lPVa_oMBU6lUyLoOUIOCtu', {action: 'test'})
                 .then(function(token) {
                 // Verify the token on the server.
                     $('#MainContent_captchatoken').val(token);
@@ -12,33 +12,41 @@
     </script>
 
     <div class="jumbotron">
-        <h1>ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-        <p><a href="http://www.asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+        <h1>reCaptcha Profiler</h1>
+        <p class="lead">Hello - You are helping us diagnose traffic flows to Google Analytics.  </p>
+            <ol>
+                <li>Simply click on the "Do Action" button first.</li>
+                <li>Look for some information below the button.</li>
+                <li>Click Send Result!</li>
+            </ol>
+        <p>If you happen to get an error saying you should try again in a few moments, please be sure to click send result.</p>
+        <p></p>
     </div>
 
     <div class="row">
-        <div class="col-md-4">
-        </div>
         <asp:UpdatePanel runat="server" ID="updatepnl">
             <ContentTemplate>
 
                 <div id="captchav3" style="margin:0,30px 0 0">
-                    <div class="g-recaptcha" data-sitekey="6Ldi54AUAAAAALp_hS0ipme0fqvPlPzb6O0Mqn8R "style="float:left;clear:left;margin:0 60px 0 90px" ></div>
+                    <div class="g-recaptcha" data-sitekey="6LdUdpgUAAAAAFnuf6lPVa_oMBU6lUyLoOUIOCtu" style="float:left;clear:left;margin:0 60px 0 90px" ></div>
                     <asp:Button ID="btnDoAction" runat="server" style="margin-top:20px !important"  
                         Text="Do Action" CssClass="btn btn-primary" OnClick="btnDispositionReport_Click" 
                         OnClientClick="ShowStuff()"  />
                         <br />  
-                <asp:Label runat="server" id="os" name="os" Text="Operating System"/></br>
-                <asp:Label runat="server" id="browser" name="browser" Text="Browser"/></br>
-                <asp:Label runat="server" id="ip" name="ip" Text="IpAddress"/></br>
-                <asp:Label runat="server" id="score" name="score" Text="Score"/></br>
                 </div>
+                <div id="traffic_data" style="margin:20px 20px 0 20px;">
+                    <asp:Label runat="server" id="os" name="os" Text="Operating System"/>
+                    <asp:Label runat="server" id="browser" name="browser" Text="Browser"/>
+                    <asp:Label runat="server" id="ip" name="ip" Text="IpAddress"/>
+                    <asp:Label runat="server" id="score" name="score" Text="Score"/>
+                </div>
+        
+
             </ContentTemplate>
         </asp:UpdatePanel>
         <div id="the_hidden" style="visibility:hidden;">
-            <asp:Button ID="btnSendToGoog" runat="server" style="margin-top:20px !important;"  
-                Text="Send Result" CssClass="btn btn-primary;"/>
+            <asp:Button ID="btnSendToGoog" runat="server" style="margin-top:20px !important;" Text="Send Result" CssClass="btn btn-success"/>
+               
                 <br />  
 
             <label id="lblCaptchaMessage" runat="server" clientidmode="static"></label> </br>
@@ -47,7 +55,9 @@
             </br>
         
         </div>
-        
+                <div id="thankyou" style="visibility:hidden;float:right;">
+                            Thank You!
+                </div>
 
  <%--           <asp:Label runat="server" id="browser" name="browser" Text="Browser"/>--%>
 
@@ -55,7 +65,13 @@
     </div>
     <script type="text/javascript">
         function ShowStuff(){
-            $("#the_hidden").css("visibility", "visible");;
+            $("#the_hidden").css('visibility', 'visible');
         };
+        $("#MainContent_btnSendToGoog").click(function () {
+            $("#thankyou").css('visibility', 'visible');
+            alert('Thank You! You may now close this page');
+            return false;
+        });
+
     </script>
 </asp:Content>
