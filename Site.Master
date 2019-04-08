@@ -16,7 +16,7 @@
     <!-- End Google Tag Manager -->
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title><%: Page.Title %> - My ASP.NET Application</title>
+    <title><%: Page.Title %> - reCaptcha Profiler</title>
 
     <asp:PlaceHolder runat="server">
         <%: Scripts.Render("~/bundles/modernizr") %>
@@ -24,17 +24,16 @@
 
     <webopt:bundlereference runat="server" path="~/Content/css" />
     <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
-       <!--Adding Captcha Code scf 12.12.2018 -->
+       <!--Adding Captcha Code scf 03.19.2019 -->
 <%--        <script src="https://www.google.com/recaptcha/api.js?onload=reCaptchaCallback&render=explicit" async defer> </script>--%>
 <%--        <script src='https://www.google.com/recaptcha/api.js'></script>--%>
             <!--Invisible V2-->     
 <%--        <script src="https://www.google.com/recaptcha/api.js" async defer></script>--%>
             <!--Captcha V3-->     
-            <script src='https://www.google.com/recaptcha/api.js?render=6LdUdpgUAAAAAFnuf6lPVa_oMBU6lUyLoOUIOCtu'></script></head>
+            <script src='https://www.google.com/recaptcha/api.js?render=6LdUdpgUAAAAAFnuf6lPVa_oMBU6lUyLoOUIOCtu'></script>
 
-
-
-<body>
+</head>
+<%--<body>--%>
     <form runat="server">
         <asp:ScriptManager runat="server">
             <Scripts>

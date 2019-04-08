@@ -22,49 +22,94 @@ namespace recaptchaWeb {
         protected global::System.Web.UI.UpdatePanel updatepnl;
         
         /// <summary>
-        /// btnDoAction control.
+        /// btnCleanCaptcha control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnDoAction;
+        protected global::System.Web.UI.WebControls.Button btnCleanCaptcha;
         
         /// <summary>
-        /// os control.
+        /// btnCriterionCaptcha control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label os;
+        protected global::System.Web.UI.WebControls.Button btnCriterionCaptcha;
         
         /// <summary>
-        /// browser control.
+        /// clean_os control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label browser;
+        protected global::System.Web.UI.WebControls.Label clean_os;
         
         /// <summary>
-        /// ip control.
+        /// clean_browser control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label ip;
+        protected global::System.Web.UI.WebControls.Label clean_browser;
         
         /// <summary>
-        /// score control.
+        /// clean_ip control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label score;
+        protected global::System.Web.UI.WebControls.Label clean_ip;
+        
+        /// <summary>
+        /// clean_score control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label clean_score;
+        
+        /// <summary>
+        /// filter_os control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label filter_os;
+        
+        /// <summary>
+        /// filter_browser control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label filter_browser;
+        
+        /// <summary>
+        /// filter_ip control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label filter_ip;
+        
+        /// <summary>
+        /// filter_score control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label filter_score;
         
         /// <summary>
         /// btnSendToGoog control.
@@ -76,13 +121,22 @@ namespace recaptchaWeb {
         protected global::System.Web.UI.WebControls.Button btnSendToGoog;
         
         /// <summary>
-        /// lblCaptchaMessage control.
+        /// lblCleanCaptchaMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblCaptchaMessage;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblCleanCaptchaMessage;
+        
+        /// <summary>
+        /// lblFilterCaptchaMessage control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl lblFilterCaptchaMessage;
         
         /// <summary>
         /// captchatoken control.
