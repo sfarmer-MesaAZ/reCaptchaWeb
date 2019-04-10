@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json.Linq;
+using recaptchaWeb.Classes;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -76,44 +78,43 @@ namespace recaptchaWeb
             var browserType = browserRequest.Browser.Type;
             double captchaScore = 0.0;
             using (WebResponse response = request.GetResponse())
-            try
-            {
-
-                using (StreamReader stream = new StreamReader(response.GetResponseStream()))
+                try
                 {
-                    for (i = 1; i <= NumberOfRetries; ++i)
+
+                    using (StreamReader stream = new StreamReader(response.GetResponseStream()))
                     {
-                        JObject jResponse = JObject.Parse(stream.ReadToEnd());
-                        var isSuccess = jResponse.Value<bool>("success");
-                        captchaScore = jResponse.Value<double>("score");
-                        var action = jResponse.Value<string>("action");
-                        if (browserType.Contains("InternetExplorer") | browserType.Contains("Firefox"))
+                        for (i = 1; i <= NumberOfRetries; ++i)
                         {
-                            result = (isSuccess && captchaScore >= 0.1 && action == "test") ? true : false;
+                            JObject jResponse = JObject.Parse(stream.ReadToEnd());
+                            var isSuccess = jResponse.Value<bool>("success");
+                            captchaScore = jResponse.Value<double>("score");
+                            var action = jResponse.Value<string>("action");
+                            if (browserType.Contains("InternetExplorer") | browserType.Contains("Firefox"))
+                            {
+                                result = (isSuccess && captchaScore >= 0.1 && action == "test") ? true : false;
+                                //ConsoleLog(this.Page, $"BROWSER: {browserType} \n\r CAPTCHA SCORE: {captchaScore}");
+                            }
+                            else
+                            {
+                                result = (isSuccess && captchaScore >= 0.1 && action == "test") ? true : false;
+                                //ConsoleLog(this.Page, $"BROWSER: {browserType} \n\r CAPTCHA SCORE: {captchaScore}");
+                            }
                         }
-                        else
-                        {
-                            result = (isSuccess && captchaScore >= 0.1 && action == "test") ? true : false;
-                        }
-
-
-
                     }
                 }
-            }
-            catch (Exception ex) when (i < NumberOfRetries)
-            {
-                var t = Task.Run(async delegate
+                catch (Exception ex) when (i < NumberOfRetries)
                 {
-                    await Task.Delay(TimeSpan.FromSeconds(1.5), source.Token);
-                    return 42;
-                });
-            }
-            clean_os.Text       = browserRequest.UserHostName;
-            clean_browser.Text  = browserType;
-            clean_ip.Text       = browserRequest.UserHostAddress;
-            clean_score.Text    = captchaScore.ToString();
-            return result;
+                    var t = Task.Run(async delegate
+                    {
+                        await Task.Delay(TimeSpan.FromSeconds(1.5), source.Token);
+                        return 42;
+                    });
+                }
+                clean_os.Text       = browserRequest.UserHostName;
+                clean_browser.Text  = browserType;
+                clean_ip.Text       = browserRequest.UserHostAddress;
+                clean_score.Text    = captchaScore.ToString();
+                return result;
         }
 
         [WebMethod]
@@ -121,7 +122,7 @@ namespace recaptchaWeb
         {
             var result = false;
             var captchaResponse = captchatoken.Text;                                                     
-            var secretKey = "6LdUdpgUAAAAAJoe6Fn4aRSQLum7Uc7li8bsObht";//ConfigurationManager.AppSettings["ReCaptchaKey"];
+            var secretKey = ConfigurationManager.AppSettings["ReCaptchaKey"]; //"6LdUdpgUAAAAAJoe6Fn4aRSQLum7Uc7li8bsObht";//
             var apiUrl = "https://www.google.com/recaptcha/api/siteverify?secret={0}&response={1}";
             var requestUri = string.Format(apiUrl, secretKey, captchaResponse);
             var request = (HttpWebRequest)WebRequest.Create(requestUri);
@@ -129,7 +130,7 @@ namespace recaptchaWeb
             string UserAgent = Request.ServerVariables["HTTP_USER_AGENT"];
             var browserRequest = HttpContext.Current.Request;
             var browserType = browserRequest.Browser.Type;
-            double filteredcaptchaScore = 0.0;
+            double filteredCaptchaScore = 0.0;
             using (WebResponse response = request.GetResponse())
                 try
                 {
@@ -140,7 +141,7 @@ namespace recaptchaWeb
                         {
                             JObject jResponse = JObject.Parse(stream.ReadToEnd());
                             var isSuccess = jResponse.Value<bool>("success");
-                            filteredcaptchaScore = jResponse.Value<double>("score");
+                            filteredCaptchaScore = jResponse.Value<double>("score");
                             var action = jResponse.Value<string>("action");
                             
                             //check ip ranges of known cellular/wif networks exceptions first
@@ -155,21 +156,28 @@ namespace recaptchaWeb
 
                             #endregion
 
-                            var exceptedCheck = IPChecker.IsUserIPAddressExcepted(userIPAddress);
-                            if (exceptedCheck)
+                            var exceptedIPCheck = IPChecker.IsUserIPAddressExcepted(userIPAddress);
+                            if (exceptedIPCheck)
                             {
                                 if (browserType.Contains("InternetExplorer") || browserType.Contains("Firefox") || browserType.Contains("Safari"))
                                 {
-                                    result = (isSuccess && filteredcaptchaScore >= 0.1 && action == "test") ? true : false;
+                                    result = (isSuccess && filteredCaptchaScore >= 0.1 && action == "test") ? true : false;
+                                    //ConsoleLog(this.Page, $"USER IP: {userIPAddress} \n\r CAPTCHA SCORE: {filteredCaptchaScore}");
+
                                 }
                                 else
                                 {
-                                    result = (isSuccess && filteredcaptchaScore >= 0.1 && action == "test") ? true : false;
+                                    result = (isSuccess && filteredCaptchaScore >= 0.1 && action == "test") ? true : false;
+                                    //ConsoleLog(this.Page, $"USER IP: {userIPAddress} \n\r CAPTCHA SCORE: {filteredCaptchaScore}");
+
                                 }
                             }
                             else // user ip falls into ranges of "safe" cellular/wifi ips
                             {
-                                result = (isSuccess && action == "test") ? true : false;
+                                result = (isSuccess && filteredCaptchaScore >= 0.7 && action == "test") ? true : false;
+                                //Report these using John's error handling?
+                                //Throw(new ErrorEventArgs filteredCaptchaScore)
+                                //Helpers.ConsoleLog(this.Page, $"USER IP: {userIPAddress} \n\r CAPTCHA SCORE: {filteredCaptchaScore}");
                             }
                         }
                     }
@@ -182,11 +190,11 @@ namespace recaptchaWeb
                         return 42;
                     });
                 }
-            filter_os.Text      = browserRequest.UserHostName;
-            filter_browser.Text = browserType;
-            filter_ip.Text      = browserRequest.UserHostAddress;
-            filter_score.Text   = filteredcaptchaScore.ToString();
-            return result;
+                filter_os.Text      = browserRequest.UserHostName;
+                filter_browser.Text = browserType;
+                filter_ip.Text      = browserRequest.UserHostAddress;
+                filter_score.Text   = filteredCaptchaScore.ToString();
+                return result;
         }
     }
 }
