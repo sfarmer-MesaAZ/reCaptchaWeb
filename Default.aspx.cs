@@ -18,11 +18,12 @@ namespace recaptchaWeb
         private const int NumberOfRetries = 3;
         private const int DelayOnRetry = 1000;
         private int i;
-        private IPAddressRange TmobAddressRange     = new IPAddressRange(0, IPAddress.Parse("172.32.0.0"),IPAddress.Parse("172.63.255.255"));
-        private IPAddressRange VerizonAddressRange  = new IPAddressRange(0,IPAddress.Parse("174.192.0.0"),IPAddress.Parse("174.255.255.255"));
-        private IPAddressRange COMWifFiAddressRange = new IPAddressRange(0, IPAddress.Parse("199.101.32.0"),IPAddress.Parse("199.101.41.255"));
-        private IPAddressRange ATTAddressRange      = new IPAddressRange(0,IPAddress.Parse("107.64.0.0"),IPAddress.Parse("107.127.255.255"));
-        private IPAddressRange NobisAddressRange    = new IPAddressRange(0,IPAddress.Parse("23.83.128.0"),IPAddress.Parse("23.83.207.255"));
+        public IPAddressRangeChecker IPChecker = new IPAddressRangeChecker();
+        //private IPAddressRange TmobAddressRange     = new IPAddressRange(0, IPAddress.Parse("172.32.0.0"),IPAddress.Parse("172.63.255.255"));
+        //private IPAddressRange VerizonAddressRange  = new IPAddressRange(0,IPAddress.Parse("174.192.0.0"),IPAddress.Parse("174.255.255.255"));
+        //private IPAddressRange COMWifFiAddressRange = new IPAddressRange(0, IPAddress.Parse("199.101.32.0"),IPAddress.Parse("199.101.41.255"));
+        //private IPAddressRange ATTAddressRange      = new IPAddressRange(0,IPAddress.Parse("107.64.0.0"),IPAddress.Parse("107.127.255.255"));
+        //private IPAddressRange NobisAddressRange    = new IPAddressRange(0,IPAddress.Parse("23.83.128.0"),IPAddress.Parse("23.83.207.255"));
 
         CancellationTokenSource source = new CancellationTokenSource();
 
@@ -141,13 +142,21 @@ namespace recaptchaWeb
                             var isSuccess = jResponse.Value<bool>("success");
                             filteredcaptchaScore = jResponse.Value<double>("score");
                             var action = jResponse.Value<string>("action");
-                            //check ip ranges of known cellular networks first
+                            
+                            //check ip ranges of known cellular/wif networks exceptions first
                             var b = IPAddress.TryParse(browserRequest.UserHostAddress, out IPAddress userIPAddress);
-                            if (
-                                 !TmobAddressRange.IsInRange(userIPAddress) == true || !VerizonAddressRange.IsInRange(userIPAddress)
-                                 || !COMWifFiAddressRange.IsInRange(userIPAddress) == true || !ATTAddressRange.IsInRange(userIPAddress)
-                                 || !NobisAddressRange.IsInRange(userIPAddress) == true
-                               )
+
+                            #region remove
+                            //if (
+                            //     !TmobAddressRange.IsInRange(userIPAddress) == true || !VerizonAddressRange.IsInRange(userIPAddress)
+                            //     || !COMWifFiAddressRange.IsInRange(userIPAddress) == true || !ATTAddressRange.IsInRange(userIPAddress)
+                            //     || !NobisAddressRange.IsInRange(userIPAddress) == true
+                            //   )
+
+                            #endregion
+
+                            var exceptedCheck = IPChecker.IsUserIPAddressExcepted(userIPAddress);
+                            if (exceptedCheck)
                             {
                                 if (browserType.Contains("InternetExplorer") || browserType.Contains("Firefox") || browserType.Contains("Safari"))
                                 {

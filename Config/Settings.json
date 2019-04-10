@@ -1,0 +1,52 @@
+{
+    "Scopes": [
+      {
+        "Name": "Tmobile",
+        "Lower": "172.32.0.0",
+        "Upper": "172.63.255.255",
+        "MinimumScore": "0.1"
+
+      },
+      {
+        "Name": "Verizon",
+        "Lower": "174.192.0.0",
+        "Upper": "174.255.255.255",
+        "MinimumScore": "0.1"
+      },
+      {
+        "Name": "COMWifFi",
+        "Lower": "199.101.32.0",
+        "Upper": "107.127.255.255",
+        "MinimumScore": "0.1"
+      },
+      {
+        "Name": "ATT",
+        "Lower": "107.64.0.0",
+        "Upper": "107.127.255.255",
+        "MinimumScore": "0.1"
+      },
+      {
+        "Name": "Nobis",
+        "Low": "23.83.128.0",
+        "Upper": "23.83.207.255",
+        "MinimumScore": "0.1"
+      }
+    ],
+    "BrowserExceptions": [
+      {
+        "Name": "Safari",
+        "Version": "All",
+        "MinimumScore": "0.1"
+      },
+      {
+        "Name": "InternetExplorer",
+        "Version": "All",
+        "MinimumScore": "0.1"
+      },
+      {
+        "Name": "Firefox",
+        "Version": "All",
+        "MinimumScore": "0.1"
+      }
+    ]
+}
